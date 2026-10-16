@@ -8,7 +8,7 @@ To change it, replace that file or edit the <img src="logo2.png"> in each .html 
 
 HERO IMAGE (home page background)
 ---------------------------------
-Set in index.html near the top:  .hero { --hero-img: url('20m Yacht/prespective render.png'); }
+Set in index.html near the top:  .hero { --hero-img: url('20m Yacht/image.png'); }
 Change the path to any image you like.
 
 PROJECTS  (this is the important one)
@@ -34,15 +34,11 @@ Axopar 45 XC (3D printable).
 
 CONTACT FORM
 ------------
-The form on contact.html opens the visitor's email app with a message already
-addressed to aon@oceanarchs.com (Name / Email / Message filled in).
-
-Want messages to arrive in your inbox WITHOUT opening an email app?
-1. Create a free account at formspree.io and make a new form -> you get an ID
-   like  xayzabcd.
-2. In contact.html, replace the <form id="contact-form" novalidate> tag with:
-      <form action="https://formspree.io/f/YOURID" method="POST">
-   and add   name="name"  name="email"  name="message"  (already present).
-3. Remove the js hook if you like — Formspree will email you every submission.
+The form on contact.html sends messages straight to aon@oceanarchs.com using
+FormSubmit (formsubmit.co, free, no account). The address is set at the top of
+the contact-form code in js/main.js (FORM_ENDPOINT).
+FIRST USE: the very first message triggers an activation email from FormSubmit
+to aon@oceanarchs.com. Click "Activate Form" in it once; after that every
+message arrives normally. Reply to a message to answer the visitor directly.
 
 TIP: keep images under ~500 KB each so pages load fast.

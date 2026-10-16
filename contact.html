@@ -74,8 +74,10 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
           </div>
+          <!-- spam trap: real visitors never see or fill this -->
+          <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn--red">Send Message</button>
-          <p class="form-note">Your message opens in your email app addressed to aon@oceanarchs.com. Prefer a form that sends straight to your inbox with no email app? See the note in the images/README file about connecting Formspree.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
 

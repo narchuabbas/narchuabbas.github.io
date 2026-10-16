@@ -126,22 +126,48 @@
       }
     }
 
-    /* ---- Contact form (emails aon@oceanarchs.com) ---- */
+    /* ---- Contact form: sends straight to aon@oceanarchs.com via FormSubmit ---- */
+    var FORM_ENDPOINT = "https://formsubmit.co/ajax/aon@oceanarchs.com";
     var form = document.getElementById("contact-form");
     if (form) {
+      var statusEl = form.querySelector(".form-status");
+      var btn = form.querySelector("button[type=submit]");
+      function setStatus(msg, kind) {
+        statusEl.innerHTML = msg;
+        statusEl.className = "form-status" + (kind ? " form-status--" + kind : "");
+      }
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var name = (form.elements["name"].value || "").trim();
         var email = (form.elements["email"].value || "").trim();
         var message = (form.elements["message"].value || "").trim();
-        var subject = "Website enquiry from " + (name || "visitor");
-        var body =
-          "Name: " + name + "\n" +
-          "Email: " + email + "\n\n" +
-          message;
-        window.location.href =
-          "mailto:aon@oceanarchs.com?subject=" + encodeURIComponent(subject) +
-          "&body=" + encodeURIComponent(body);
+        if (form.elements["_honey"].value) return;            /* bot */
+        if (!name || !email || !message) { setStatus("Please fill in your name, email and message.", "error"); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("Please enter a valid email address.", "error"); return; }
+
+        btn.disabled = true; btn.textContent = "Sending...";
+        setStatus("", "");
+        fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            name: name, email: email, message: message,
+            _subject: "Website enquiry from " + name,
+            _replyto: email,
+            _template: "table"
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && String(d.success) === "true") {
+            form.reset();
+            setStatus("Thank you, " + name.replace(/[<>&]/g, "") + ". Your message has been sent and we will get back to you shortly.", "ok");
+          } else { throw new Error(d && d.message); }
+        })
+        .catch(function () {
+          setStatus('Sorry, the message could not be sent. Please email us directly at <a href="mailto:aon@oceanarchs.com">aon@oceanarchs.com</a>.', "error");
+        })
+        .then(function () { btn.disabled = false; btn.textContent = "Send Message"; });
       });
     }
 
