@@ -39,7 +39,7 @@ window.OA_PROJECTS = [
     length: "—",
     blurb: "A sleek catamaran platform designed for stability, deck space and smooth multi-hull performance.",
     dir: "Harpoon Catamaran Boat",
-    images: ["Harpoon_006.png"]
+    images: ["Harpoon_006.jpg"]
   },
   {
     slug: "catamaran-50",
